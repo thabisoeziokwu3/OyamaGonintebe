@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oyama Gonintebe — Concept</title>
+  <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #fafaf8;
+      color: #1a1a1a;
+      line-height: 1.6;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(250, 250, 248, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      transition: all 0.3s ease;
+    }
+
+    .navbar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 70px;
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 500;
+      color: #1a1a1a;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 40px;
+    }
+
+    .nav-links li {
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #555;
+      transition: color 0.3s ease;
+      padding: 8px 0;
+      border-bottom: 1px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .nav-links li:hover,
+    .nav-links li.active {
+      color: #1a1a1a;
+      border-bottom-color: #c9a96e;
+    }
+
+    /* Logo Colors */
+    /* Primary: Deep charcoal #1a1a1a */
+    /* Accent: Warm gold/ochre #c9a96e */
+    /* Background: Cream #fafaf8 */
+    /* Text: #1a1a1a and #555 */
+
+    /* Sections */
+    .section {
+      min-height: 100vh;
+      padding: 120px 40px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Homepage */
+    .homepage {
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      min-height: 100vh;
+      padding-top: 70px;
+    }
+
+    .homepage-image {
+      flex: 1.2;
+      width: 100%;
+      max-width: 100%;
+      background-color: #e8e5df;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      position: relative;
+    }
+
+    .homepage-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-position: center;
+    }
+
+    .homepage-image .placeholder-text {
+      position: absolute;
+      color: #bbb;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .homepage-content {
+      flex: 0.8;
+    }
+
+    .homepage-content h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem;
+      font-weight: 400;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      color: #1a1a1a;
+    }
+
+    .homepage-content .tagline {
+      font-size: 1rem;
+      color: #c9a96e;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 30px;
+      font-weight: 400;
+    }
+
+    .homepage-content .intro {
+      font-size: 1.05rem;
+      color: #555;
+      line-height: 1.8;
+      max-width: 400px;
+    }
+
+    .homepage-content .cta {
+      display: inline-block;
+      margin-top: 40px;
+      padding: 14px 36px;
+      border: 1px solid #1a1a1a;
+      background: transparent;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #1a1a1a;
+      transition: all 0.3s ease;
+    }
+
+    .homepage-content .cta:hover {
+      background: #1a1a1a;
+      color: #fafaf8;
+    }
+
+    /* Collections */
+    .collections-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-top: 60px;
+    }
+
+    .collection-card {
+      position: relative;
+      height: 500px;
+      background-color: #e8e5df;
+      cursor: pointer;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .collection-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+
+    .collection-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .collection-card .card-placeholder {
+      position: absolute;
+      color: #bbb;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .collection-card .card-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 30px;
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.5));
+      color: white;
+    }
+
+    .collection-card .card-overlay h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 400;
+      margin-bottom: 5px;
+    }
+
+    .collection-card .card-overlay p {
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.9;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #c9a96e;
+      margin-bottom: 15px;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem;
+      font-weight: 400;
+      color: #1a1a1a;
+      margin-bottom: 15px;
+    }
+
+    .section-subtitle {
+      color: #777;
+      max-width: 500px;
+      line-height: 1.8;
+    }
+
+    /* About */
+    .about-layout {
+      display: flex;
+      gap: 60px;
+      margin-top: 60px;
+      align-items: flex-start;
+    }
+
+    .about-image {
+      flex: 1;
+      height: 500px;
+      background-color: #e8e5df;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #bbb;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      overflow: hidden;
+    }
+
+    .about-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .about-text {
+      flex: 1;
+    }
+
+    .about-text h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 400;
+      margin-bottom: 20px;
+      color: #1a1a1a;
+    }
+
+    .about-text p {
+      color: #555;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .about-text .inspiration-tag {
+      display: inline-block;
+      padding: 8px 18px;
+      border: 1px solid #ddd;
+      margin: 5px 8px 5px 0;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #777;
+      border-radius: 20px;
+    }
+
+    /* Contact */
+    .contact-layout {
+      display: flex;
+      gap: 60px;
+      margin-top: 60px;
+    }
+
+    .contact-info {
+      flex: 1;
+    }
+
+    .contact-info h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 400;
+      margin-bottom: 30px;
+      color: #1a1a1a;
+    }
+
+    .contact-item {
+      margin-bottom: 25px;
+    }
+
+    .contact-item .label {
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #c9a96e;
+      margin-bottom: 5px;
+    }
+
+    .contact-item .value {
+      color: #555;
+      font-size: 0.95rem;
+    }
+
+    .contact-form {
+      flex: 1.5;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .contact-form input,
+    .contact-form textarea,
+    .contact-form select {
+      width: 100%;
+      padding: 14px 18px;
+      border: 1px solid #e0ded8;
+      background: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: #1a1a1a;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus,
+    .contact-form select:focus {
+      border-color: #c9a96e;
+    }
+
+    .contact-form textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    .contact-form button {
+      padding: 14px 36px;
+      background: #1a1a1a;
+      color: #fafaf8;
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: background 0.3s ease;
+      align-self: flex-start;
+    }
+
+    .contact-form button:hover {
+      background: #333;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 40px;
+      border-top: 1px solid #e8e5df;
+      max-width: 1200px;
+      margin: 0 auto 0 40px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .footer p {
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #aaa;
+    }
+
+    /* Smooth Scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .homepage {
+        flex-direction: column;
+        gap: 40px;
+      }
+
+      .homepage-image {
+        flex: none;
+        width: 100%;
+        height: 50vh;
+        min-height: 350px;
+      }
+
+      .homepage-content h1 {
+        font-size: 2.4rem;
+      }
+
+      .collections-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .collection-card {
+        height: 350px;
+      }
+
+      .about-layout,
+      .contact-layout {
+        flex-direction: column;
+      }
+
+      .about-image {
+        height: 350px;
+        width: 100%;
+      }
+
+      .section {
+        padding: 100px 20px 60px;
+      }
+
+      .navbar-inner {
+        padding: 0 20px;
+      }
+
+      .nav-links {
+        gap: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // ===== IMAGE PLACEHOLDERS =====
+    // Replace these with actual image URLs from her collection
+    const IMAGES = {
+      hero: 'hero-image.jpg',        // Replace with: "hero-image.jpg"
+      collection1: 'safw-collection.jpg', // Replace with: "https://example.com/safw-collection.jpg"
+      collection2: 'seasonal-collection.jpg', // Replace with: "https://example.com/seasonal-collection.jpg"
+      about: 'oyama-portrait.jpg',       // Replace with: "https://example.com/oyama-portrait.jpg"
+    };
+
+    // If no image URL is provided, it shows a placeholder box
+    function getImageSrc(key) {
+      return IMAGES[key] || null;
+    }
+
+    // Image component that shows placeholder when no image is set
+    function SmartImage({ src, alt, placeholderText, className, style }) {
+      if (!src) {
+        return (
+          <div className={className} style={style}>
+            <span style={{ color: '#bbb', fontSize: '0.85rem', letterSpacing: '2px', textTransform: 'uppercase' }}>
+              {placeholderText || 'Image Placeholder'}
+            </span>
+          </div>
+        );
+      }
+      return <img src={src} alt={alt} className={className} style={style} />;
+    }
+
+    function Navbar({ activeSection, onNavigate }) {
+      const [scrolled, setScrolled] = useState(false);
+
+      useEffect(() => {
+        const handleScroll = () => {
+          setScrolled(window.scrollY > 50);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, []);
+
+      const navItems = [
+        { id: 'home', label: 'Home' },
+        { id: 'collections', label: 'Collections' },
+        { id: 'about', label: 'About' },
+        { id: 'contact', label: 'Contact' },
+      ];
+
+      return (
+        <nav className="navbar" style={{
+          boxShadow: scrolled ? '0 2px 20px rgba(0,0,0,0.04)' : 'none'
+        }}>
+          <div className="navbar-inner">
+            <div className="logo">Oyama</div>
+            <ul className="nav-links">
+              {navItems.map(item => (
+                <li
+                  key={item.id}
+                  className={activeSection === item.id ? 'active' : ''}
+                  onClick={() => onNavigate(item.id)}
+                >
+                  {item.label}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </nav>
+      );
+    }
+
+    function Homepage({ id }) {
+      return (
+        <section id={id} className="section homepage">
+          <div className="homepage-image">
+            <SmartImage
+              src={getImageSrc('hero')}
+              alt="Oyama Gonintebe Collection"
+              placeholderText="Hero Image — Add a strong editorial shot"
+              style={{ width: '100%', height: 'auto' }}
+            />
+          </div>
+          <div className="homepage-content">
+            <p className="tagline">Cape Town / Johannesburg</p>
+            <h1>
+              Oyama<br />Gonintebe
+            </h1>
+            <p className="intro">
+              Fusing Xhosa heritage with contemporary design.
+              Modern silhouettes rooted in tradition, crafted for the everyday
+              and the extraordinary.
+            </p>
+            <button className="cta" onClick={() => {
+              document.getElementById('collections').scrollIntoView({ behavior: 'smooth' });
+            }}>
+              View Collections
+            </button>
+          </div>
+        </section>
+      );
+    }
+
+    function Collections({ id }) {
+      const collections = [
+        {
+          title: 'SA Fashion Week',
+          subtitle: 'New Talent Search Collection',
+          imageKey: 'collection1',
+          placeholder: 'SAFW Collection — Add runway/lookbook images',
+        },
+        {
+          title: 'Seasonal Work',
+          subtitle: 'Heritage Reimagined',
+          imageKey: 'collection2',
+          placeholder: 'Seasonal Collection — Add lookbook images',
+        },
+      ];
+
+      return (
+        <section id={id} className="section">
+          <p className="section-label">Selected Work</p>
+          <h2 className="section-title">Collections</h2>
+          <p className="section-subtitle">
+            A curated selection of collections that explore the intersection of
+            tradition and modernity through texture, silhouette, and detail.
+          </p>
+          <div className="collections-grid">
+            {collections.map((col, index) => (
+              <div key={index} className="collection-card">
+                <SmartImage
+                  src={getImageSrc(col.imageKey)}
+                  alt={col.title}
+                  placeholderText={col.placeholder}
+                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                />
+                <div className="card-overlay">
+                  <h3>{col.title}</h3>
+                  <p>{col.subtitle}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      );
+    }
+
+    function About({ id }) {
+      const inspirations = [
+        'isiXhosa Heritage',
+        'Contemporary Silhouettes',
+        'Grandmothers\' Craft',
+        'Traditional Dress',
+        'Modern Structure',
+        'Everyday Wear',
+      ];
+
+      return (
+        <section id={id} className="section">
+          <p className="section-label">The Designer</p>
+          <h2 className="section-title">About Oyama</h2>
+          <div className="about-layout">
+            <div className="about-image">
+              <SmartImage
+                src={getImageSrc('about')}
+                alt="Oyama Gonintebe"
+                placeholderText="Portrait — Add a photo of Oyama"
+                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+              />
+            </div>
+            <div className="about-text">
+              <h3>A story woven in thread and tradition</h3>
+              <p>
+                Oyama Gonintebe's work is deeply rooted in her Xhosa heritage,
+                shaped by the hands of her grandmothers; both dressmakers who passed
+                down the craft in different forms. One specialized in traditional attire,
+                the other in structured, tailored garments.
+              </p>
+              <p>
+                This duality lives in every piece she creates: the reverence for
+                ancestral tradition fused with the clean lines of contemporary design.
+                Her aim is to modernize traditional Xhosa attire, transforming it into
+                versatile pieces that belong everywhere, not just at ceremonies, but woven
+                into the fabric of everyday life.
+              </p>
+              <p>
+                From SA Fashion Week's New Talent Search to creating custom pieces
+                for notable figures, Oyama's voice in South African fashion continues
+                to grow—quietly, intentionally, and with unmistakable clarity.
+              </p>
+              <div style={{ marginTop: '25px' }}>
+                {inspirations.map((item, i) => (
+                  <span key={i} className="inspiration-tag">{item}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    function Contact({ id }) {
+      const [inquiryType, setInquiryType] = useState('');
+
+      return (
+        <section id={id} className="section">
+          <p className="section-label">Get in Touch</p>
+          <h2 className="section-title">Contact</h2>
+          <div className="contact-layout">
+            <div className="contact-info">
+              <h3>Let's work together</h3>
+              <div className="contact-item">
+                <p className="label">For Collaborations</p>
+                <p className="value">collab@oyamagonintebe.com</p>
+              </div>
+              <div className="contact-item">
+                <p className="label">For Styling</p>
+                <p className="value">studio@oyamagonintebe.com</p>
+              </div>
+              <div className="contact-item">
+                <p className="label">For Press</p>
+                <p className="value">press@oyamagonintebe.com</p>
+              </div>
+              <div className="contact-item">
+                <p className="label">Based In</p>
+                <p className="value">South Africa</p>
+              </div>
+            </div>
+            <form className="contact-form" onSubmit={(e) => { e.preventDefault(); alert('This is a concept demo. Your message would be sent to Oyama.'); }}>
+              <select
+                value={inquiryType}
+                onChange={(e) => setInquiryType(e.target.value)}
+                style={{ color: inquiryType ? '#1a1a1a' : '#999' }}
+              >
+                <option value="" disabled>Select inquiry type</option>
+                <option value="collaboration">Collaboration</option>
+                <option value="styling">Styling</option>
+                <option value="press">Press</option>
+                <option value="other">Other</option>
+              </select>
+              <input type="text" placeholder="Your Name" />
+              <input type="email" placeholder="Your Email" />
+              <textarea placeholder="Tell me about your project or inquiry..."></textarea>
+              <button type="submit">Send Message</button>
+            </form>
+          </div>
+        </section>
+      );
+    }
+
+    function Footer() {
+      return (
+        <div className="footer">
+          <p>&copy; {new Date().getFullYear()} Oyama Gonintebe</p>
+        </div>
+      );
+    }
+
+    function App() {
+      const [activeSection, setActiveSection] = useState('home');
+
+      const handleNavigate = (sectionId) => {
+        setActiveSection(sectionId);
+        document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+      };
+
+      // Track active section on scroll
+      useEffect(() => {
+        const handleScroll = () => {
+          const sections = ['home', 'collections', 'about', 'contact'];
+          const scrollPos = window.scrollY + 200;
+
+          for (let i = sections.length - 1; i >= 0; i--) {
+            const el = document.getElementById(sections[i]);
+            if (el && el.offsetTop <= scrollPos) {
+              setActiveSection(sections[i]);
+              break;
+            }
+          }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, []);
+
+      return (
+        <div>
+          <Navbar activeSection={activeSection} onNavigate={handleNavigate} />
+          <Homepage id="home" />
+          <Collections id="collections" />
+          <About id="about" />
+          <Contact id="contact" />
+          <Footer />
+        </div>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+
+</html>

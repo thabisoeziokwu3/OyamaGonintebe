@@ -83,6 +83,57 @@
       border-bottom-color: #c9a96e;
     }
 
+    /* Mobile nav toggle (hamburger) */
+    .nav-toggle {
+      display: none;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      width: 40px;
+      height: 32px;
+      position: relative;
+    }
+
+    .nav-toggle .bar {
+      display: block;
+      width: 100%;
+      height: 3px;
+      background: #1a1a1a;
+      margin: 6px 0;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+
+    .mobile-menu {
+      display: none;
+      position: absolute;
+      top: 70px;
+      left: 0;
+      right: 0;
+      background: rgba(250, 250, 248, 0.98);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding: 12px 20px 18px;
+      z-index: 90;
+    }
+
+    .nav-links-mobile {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .nav-links-mobile li {
+      padding: 10px 8px;
+      border-radius: 6px;
+      color: #555;
+    }
+
+    .nav-links-mobile li:hover,
+    .nav-links-mobile li.active {
+      color: #1a1a1a;
+      background: rgba(201,169,110,0.06);
+    }
+
     /* Logo Colors */
     /* Primary: Deep charcoal #1a1a1a */
     /* Accent: Warm gold/ochre #c9a96e */
@@ -122,8 +173,9 @@
 
     .homepage-image img {
       width: 100%;
-      height: auto;
+      height: 100%;
       display: block;
+      object-fit: cover;
       object-position: center;
     }
 
@@ -294,7 +346,7 @@
     .about-image img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
       display: block;
     }
 
@@ -484,6 +536,19 @@
       .nav-links {
         gap: 20px;
       }
+
+      /* Hide desktop links on mobile and show toggle */
+      .nav-links {
+        display: none;
+      }
+
+      .nav-toggle {
+        display: block;
+      }
+
+      .mobile-menu {
+        display: block;
+      }
     }
   </style>
 </head>
@@ -519,11 +584,18 @@
           </div>
         );
       }
-      return <img src={src} alt={alt} className={className} style={style} />;
+
+      const finalStyle = Object.assign({}, style || {});
+      if (!finalStyle.objectFit) finalStyle.objectFit = 'cover';
+      finalStyle.width = '100%';
+      finalStyle.height = '100%';
+
+      return <img src={src} alt={alt} className={className} style={finalStyle} />;
     }
 
     function Navbar({ activeSection, onNavigate }) {
       const [scrolled, setScrolled] = useState(false);
+      const [open, setOpen] = useState(false);
 
       useEffect(() => {
         const handleScroll = () => {
@@ -540,24 +612,52 @@
         { id: 'contact', label: 'Contact' },
       ];
 
+      const handleNavigate = (id) => {
+        setOpen(false);
+        onNavigate(id);
+      };
+
       return (
         <nav className="navbar" style={{
           boxShadow: scrolled ? '0 2px 20px rgba(0,0,0,0.04)' : 'none'
         }}>
           <div className="navbar-inner">
             <div className="logo">Oyama</div>
+
+            <button className="nav-toggle" aria-label="Toggle navigation" onClick={() => setOpen(!open)}>
+              <span className="bar" />
+              <span className="bar" />
+              <span className="bar" />
+            </button>
+
             <ul className="nav-links">
               {navItems.map(item => (
                 <li
                   key={item.id}
                   className={activeSection === item.id ? 'active' : ''}
-                  onClick={() => onNavigate(item.id)}
+                  onClick={() => handleNavigate(item.id)}
                 >
                   {item.label}
                 </li>
               ))}
             </ul>
           </div>
+
+          {open && (
+            <div className="mobile-menu" role="menu">
+              <ul className="nav-links-mobile">
+                {navItems.map(item => (
+                  <li
+                    key={item.id}
+                    className={activeSection === item.id ? 'active' : ''}
+                    onClick={() => handleNavigate(item.id)}
+                  >
+                    {item.label}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </nav>
       );
     }
